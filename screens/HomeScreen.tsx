@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }: any) => {
     }
   };
 
-  const onChange = (event: any, selectedDate?: Date) => {
+  const onChange = (event: any) => {
     const currentDate = selectedDate || monthlyPayment;
     setShowDatePicker(Platform.OS === 'ios');
     setMonthlyPayment(currentDate);

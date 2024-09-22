@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TextInput, Button, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import CheckBox from 'expo-checkbox'; // Correct import
+import CheckBox from 'expo-checkbox';
 
 const FinancialInfoScreen: React.FC = () => {
     const [incomeSource, setIncomeSource] = React.useState<string>('');
     const [monthlyIncome, setMonthlyIncome] = React.useState<string>('');
-    const [bankruptcy, setBankruptcy] = React.useState<string>('');
+    const [bankruptcy, setBankruptcy] = React.useState<string>('No');
     const [communication, setCommunication] = React.useState<boolean>(false);
     const [creditReport, setCreditReport] = React.useState<boolean>(false);
     const [terms, setTerms] = React.useState<boolean>(false);
@@ -23,16 +23,12 @@ const FinancialInfoScreen: React.FC = () => {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.header}>Financial Information</Text>
                 <Text style={styles.requiredFields}>*indicates a required field</Text>
 
                 <Text style={styles.label}>Primary Source of Income *</Text>
-
                 <View style={styles.card}>
                     <Picker
                         selectedValue={incomeSource}
@@ -47,7 +43,6 @@ const FinancialInfoScreen: React.FC = () => {
                 </View>
 
                 <Text style={styles.label}>Monthly Income After Taxes *</Text>
-
                 <TextInput
                     style={styles.input}
                     placeholder="Enter monthly income"
@@ -57,43 +52,49 @@ const FinancialInfoScreen: React.FC = () => {
                 />
 
                 <Text style={styles.label}>Have you declared bankruptcy in the last 7 years?</Text>
-
                 <View style={styles.radioGroup}>
-                    {/* Add radio buttons or input here */}
+                    <TouchableOpacity
+                        style={styles.radioButton}
+                        onPress={() => setBankruptcy('No')}
+                    >
+                        <View style={[styles.radioCircle, bankruptcy === 'No' && styles.selectedRadioCircle]}>
+                            {bankruptcy === 'No' && <View style={styles.selectedInnerCircle} />}
+                        </View>
+                        <Text style={styles.radioButtonText}>No</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.radioButton}
+                        onPress={() => setBankruptcy('Yes')}
+                    >
+                        <View style={[styles.radioCircle, bankruptcy === 'Yes' && styles.selectedRadioCircle]}>
+                            {bankruptcy === 'Yes' && <View style={styles.selectedInnerCircle} />}
+                        </View>
+                        <Text style={styles.radioButtonText}>Yes</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <Text style={styles.label}>Please check the following agreements:</Text>
                 <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        value={communication}
-                        onValueChange={setCommunication}
-                    />
+                    <CheckBox value={communication} onValueChange={setCommunication} />
                     <Text style={styles.checkboxLabel}>
                         By submitting this form, I agree and acknowledge that Money Mart may send me additional communications regarding their products.
                     </Text>
                 </View>
 
                 <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        value={creditReport}
-                        onValueChange={setCreditReport}
-                    />
+                    <CheckBox value={creditReport} onValueChange={setCreditReport} />
                     <Text style={styles.checkboxLabel}>
                         I consent to the pulling of my credit report.
                     </Text>
                 </View>
 
                 <View style={styles.checkboxContainer}>
-                    <CheckBox
-                        value={terms}
-                        onValueChange={setTerms}
-                    />
+                    <CheckBox value={terms} onValueChange={setTerms} />
                     <Text style={styles.checkboxLabel}>
                         I agree to the terms and conditions.
                     </Text>
                 </View>
 
-                {/* Add some space before the button */}
                 <View style={{ marginBottom: 20 }}>
                     <Button title="Continue" onPress={handleContinue} />
                 </View>
@@ -105,8 +106,8 @@ const FinancialInfoScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        flexGrow: 1, // Ensure ScrollView takes full available height
-        justifyContent: 'space-between', // Push content to the top
+        flexGrow: 1,
+        justifyContent: 'space-between',
     },
     header: {
         fontSize: 24,
@@ -145,6 +146,33 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
+    },
+    radioButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 16,
+    },
+    radioCircle: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: 'gray',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    selectedRadioCircle: {
+        borderColor: 'blue',
+    },
+    selectedInnerCircle: {
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: 'blue',
+    },
+    radioButtonText: {
+        marginLeft: 8,
+        fontSize: 16,
     },
     checkboxContainer: {
         flexDirection: 'row',
