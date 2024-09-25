@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Dimensions, Image, View, StyleSheet, Text, ScrollView } from 'react-native';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import Carousel from 'react-native-reanimated-carousel';
 
 const mainCarouselImages = [
@@ -14,128 +15,103 @@ const otherServicesImages = [
   { id: '3', uri: 'https://via.placeholder.com/150x150.png?text=Service+Image+3' },
 ];
 
-function Index() {
+const Index = () => {
     const width = Dimensions.get('window').width;
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
-        <View style={styles.container}>
-            {/* Main Carousel */}
+        <Container>
             <Carousel
                 loop
                 width={width}
-                height={150} // Height for main carousel
+                height={150}
                 autoPlay={true}
-                data={mainCarouselImages} // Main carousel images
+                data={mainCarouselImages}
                 scrollAnimationDuration={1000}
-                onSnapToItem={(index) => setCurrentIndex(index)} // Update index on snap
+                onSnapToItem={(index) => setCurrentIndex(index)}
                 renderItem={({ index }) => (
-                    <View style={styles.carouselItem}>
-                        <Image
-                            source={{ uri: mainCarouselImages[index].uri }}
-                            style={styles.mainImage}
-                        />
-                    </View>
+                    <CarouselItem>
+                        <MainImage source={{ uri: mainCarouselImages[index].uri }} />
+                    </CarouselItem>
                 )}
             />
-
-            {/* Dots for Carousel */}
-            <View style={styles.dotsContainer}>
+            <DotsContainer>
                 {mainCarouselImages.map((_, index) => (
-                    <View key={index} style={[styles.dot, currentIndex === index && styles.activeDot]} />
+                    <Dot key={index} active={currentIndex === index} />
                 ))}
-            </View>
+            </DotsContainer>
 
-            {/* Other Services Heading */}
-            <Text style={styles.heading}>Other Services</Text>
+            <Heading>Other Services</Heading>
 
-            {/* Left-Aligned Services Carousel */}
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.carouselContainer}
-            >
+            <OtherServicesScroll horizontal showsHorizontalScrollIndicator={false}>
                 {otherServicesImages.map((image) => (
-                    <View key={image.id} style={styles.otherServiceContainer}>
-                        <Image
-                            source={{ uri: image.uri }}
-                            style={styles.serviceImage}
-                        />
-                    </View>
+                    <OtherServiceContainer key={image.id}>
+                        <ServiceImage source={{ uri: image.uri }} />
+                    </OtherServiceContainer>
                 ))}
-            </ScrollView>
-        </View>
+            </OtherServicesScroll>
+        </Container>
     );
-}
+};
 
-const styles = StyleSheet.create({
-    container: {
-        position: 'relative', // Set position relative
-              width: '100%', // Full width
-              height: '100%', // Full height
-              alignItems: 'flex-start',
-              padding: 0, // Remove overall padding
-            alignItems: 'center'
-        },
-    carouselItem: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mainImage: {
-        width: 342,
-        height: 150,
-        borderRadius: 20,
-    },
-    heading: {
-        textAlign: 'left',
-        fontSize: 20,
-        marginVertical: 0, // Ensure no vertical margin
-        fontWeight: 'bold',
-        width: '100%',
-        paddingLeft: 16,
-        paddingTop: 120, // Adjust to bring closer
-    },
-    carouselContainer: {
-        paddingLeft: 16, // Padding for the left side
-        paddingBottom: 0, // No bottom padding for the carousel
-    },
-    otherServiceContainer: {
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginRight: 16, // Spacing between images
-    },
-    serviceImage: {
-        width: 230,
-        height: 150,
-        borderRadius: 20,
-        margin: 0,
-        padding: 0,
-        marginBottom: 0, // Ensure no bottom margin for images
-    },
-    dotsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 0, // Reduce space between dots and heading
-        paddingVertical: 0, // No vertical padding
-    },
-    dot: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#ccc', // Inactive dot color
-        marginHorizontal: 4,
-    },
-    activeDot: {
-        backgroundColor: '#000', // Active dot color
-    },
-});
+// Styled Components
+const Container = styled.View`
+    flex: 1;
+    align-items: center;
+    background-color: #FFFFFF; /* Match background color */
+    padding: 16px;
+`;
+
+const CarouselItem = styled.View`
+    justify-content: center;
+    align-items: center;
+`;
+
+const MainImage = styled.Image`
+    width: 342px;
+    height: 150px;
+    border-radius: 20px;
+`;
+
+const DotsContainer = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+`;
+
+const Dot = styled.View<{ active: boolean }>`
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: ${({ active }) => (active ? '#007AFF' : '#CCCCCC')}; /* Use consistent primary color */
+    margin: 0 4px;
+`;
+
+const Heading = styled.Text`
+    font-size: 18px; /* Match FinancialInfoScreen heading size */
+    font-weight: bold; /* Same font-weight */
+    color: #333; /* Consistent text color */
+    margin-top: 20px;
+    text-align: left;
+    width: 100%;
+    padding-left: 16px;
+    padding-top: 60px; /* Adjusted for better spacing */
+    padding-bottom:30px;
+`;
+
+const OtherServicesScroll = styled.ScrollView`
+    padding-left: 16px;
+`;
+
+const OtherServiceContainer = styled.View`
+    margin-right: 16px;
+`;
+
+const ServiceImage = styled.Image`
+    width: 230px;
+    height: 150px;
+    border-radius: 20px;
+`;
 
 export default Index;
-
-
-
-
-
-
