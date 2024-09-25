@@ -4,9 +4,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 const HomeScreen = ({ navigation }: any) => {
   const [homeAddress, setHomeAddress] = useState('');
-  const [rentOrOwn, setRentOrOwn] = useState('Rent');
+  const [rentOrOwn, setRentOrOwn] = useState('');
   const [monthlyPayment, setMonthlyPayment] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [monthlyIncome, setMonthlyIncome] = useState("");
 
   const handleContinue = () => {
     if (homeAddress === '' || !monthlyPayment) {
@@ -16,6 +17,7 @@ const HomeScreen = ({ navigation }: any) => {
       navigation.navigate('FinancialInfoScreen', {
         homeAddress,
         rentOrOwn,
+        monthlyIncome,
         monthlyPayment: monthlyPayment.toISOString().split('T')[0], // Convert to YYYY-MM-DD format
       });
     }
@@ -67,6 +69,16 @@ const HomeScreen = ({ navigation }: any) => {
         <TouchableOpacity style={styles.datePickerButton} onPress={() => setShowDatePicker(true)}>
           <Text style={styles.datePickerText}>Select Date: {monthlyPayment.toISOString().split('T')[0]}</Text>
         </TouchableOpacity>
+
+
+        <Text style={styles.label}>Monthly Income After Taxes *</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter monthly income"
+                            keyboardType="numeric"
+                            value={monthlyIncome}
+                            onChangeText={setMonthlyIncome}
+                        />
 
         {showDatePicker && (
           <DateTimePicker

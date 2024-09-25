@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, ScrollView, StyleSheet, KeyboardAvoiding
 import { Picker } from '@react-native-picker/picker';
 import CheckBox from 'expo-checkbox';
 
-const FinancialInfoScreen: React.FC = () => {
+const FinancialInfoScreen: React.FC = ({ navigation }) => {  // Destructure navigation from props
     const [incomeSource, setIncomeSource] = React.useState<string>('');
     const [monthlyIncome, setMonthlyIncome] = React.useState<string>('');
     const [bankruptcy, setBankruptcy] = React.useState<string>('No');
@@ -20,6 +20,8 @@ const FinancialInfoScreen: React.FC = () => {
             creditReport,
             terms,
         });
+
+        navigation.navigate('Carousel');  // Use navigation.navigate correctly
     };
 
     return (
