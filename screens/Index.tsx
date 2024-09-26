@@ -6,7 +6,7 @@ import Carousel from 'react-native-reanimated-carousel';
 const mainCarouselImages = [
   { id: '1', uri: 'https://via.placeholder.com/342x150.png?text=Main+Image+1' },
   { id: '2', uri: 'https://via.placeholder.com/342x150.png?text=Main+Image+2' },
-  { id: '3', uri: 'https://via.placeholder.com/342x150.png?text=Main+Image+3' },
+  { id: '3', uri:  'https://via.placeholder.com/342x150.png?text=Main+Image+3' },
 ];
 
 const otherServicesImages = [
