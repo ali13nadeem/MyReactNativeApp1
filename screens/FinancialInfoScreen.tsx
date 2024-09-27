@@ -21,8 +21,11 @@ const FinancialInfoScreen: React.FC = ({ navigation }) => {  // Destructure navi
             terms,
         });
 
-        navigation.navigate('Carousel');  // Use navigation.navigate correctly
+        navigation.navigate('CarouselComponent');  // Use navigation.navigate correctly
+//         navigation.navigate('Index');  // Use navigation.navigate correctly
+
     };
+
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -100,6 +103,7 @@ const FinancialInfoScreen: React.FC = ({ navigation }) => {  // Destructure navi
                 <View style={{ marginBottom: 20 }}>
                     <Button title="Continue" onPress={handleContinue} />
                 </View>
+
             </ScrollView>
         </KeyboardAvoidingView>
     );
